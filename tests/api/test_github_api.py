@@ -27,9 +27,33 @@ def test_repo_with_single_char_be_found(github_api):
     r = github_api.search_repo('l')
     assert r['total_count'] != 0   
 
+@pytest.mark.api
+def test_emojis_list(github_api):
+    emo = github_api.get_emoji('https://github.githubassets.com/images/icons/emoji/unicode/1f6be.png?v8')
+    assert emo ['wc'] == 'https://github.githubassets.com/images/icons/emoji/unicode/1f6be.png?v8'
 
+@pytest.mark.api
+def test_existing_emoji(github_api):
+    emo = github_api.get_emoji('zzz')
+    if 'zzz' in emo:
+        assert emo['zzz'] == 'https://github.githubassets.com/images/icons/emoji/unicode/1f4a4.png?v8'
+    else:
+        print('This emoji is not available to use')
 
- 
+@pytest.mark.api
+def test_emoji_non_existing(github_api):
+    emo = github_api.get_emoji('kalyna')
+    if 'kalyna' in emo:
+        print (emo['kalyna'])
+    else:
+        print('This emoji is not available to use')
 
+@pytest.mark.api
+def test_oldest_commit(github_api):
+    list = github_api.list_commits('lvstefaniv', 'Lesia_Stefaniv_AQA_Project')
+    assert '9aa1e19f4be56323f94bf72c55e3798f76aec3ca' in list[-1]
 
-
+@pytest.mark.api
+def test_last_committer(github_api):
+    list = github_api.list_commits('lvstefaniv', 'Lesia_Stefaniv_AQA_Project')
+    assert 'Lesia Stefaniv' in list[0]
