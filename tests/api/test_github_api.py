@@ -51,9 +51,13 @@ def test_emoji_non_existing(github_api):
 @pytest.mark.api
 def test_oldest_commit(github_api):
     list = github_api.list_commits('lvstefaniv', 'Lesia_Stefaniv_AQA_Project')
-    assert '9aa1e19f4be56323f94bf72c55e3798f76aec3ca' in list[-1]
-
+    size = len(list)
+    assert list[size-1]['sha'] == '9aa1e19f4be56323f94bf72c55e3798f76aec3ca'
+   
 @pytest.mark.api
 def test_last_committer(github_api):
     list = github_api.list_commits('lvstefaniv', 'Lesia_Stefaniv_AQA_Project')
-    assert 'Lesia Stefaniv' in list[0]
+    assert list[0]['commit']['author']['name'] == 'Lesia Stefaniv'
+
+
+ 
